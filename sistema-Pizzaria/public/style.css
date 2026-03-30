@@ -1,0 +1,170 @@
+/* --- CONFIGURAÇÕES DE CORES E TEMA (Design System) --- */
+:root {
+  --bg:      #0f0f0f; /* Fundo principal (quase preto) */
+  --surf:    #181818; /* Superfície dos cards e sidebar */
+  --surf2:   #212121; /* Superfície secundária (inputs e hovers) */
+  --border:  #2a2a2a; /* Cor das bordas finas */
+  --red:     #e8372a; /* Cor principal da marca (Pizzaria) */
+  --red-dk:  #c02d22; /* Tom de vermelho mais escuro para botões */
+  --gold:    #f5c842; /* Destaques de preços e status importante */
+  --green:   #29c76f; /* Status de 'Entregue' ou 'Sucesso' */
+  --blue:    #3b82f6; /* Status de 'Recebido' */
+  --text:    #f0f0f0; /* Cor do texto principal */
+  --muted:   #777;    /* Cor de textos secundários/apagados */
+  --r:       10px;    /* Arredondamento padrão dos cantos */
+}
+
+/* Reset básico para garantir que o layout seja igual em todos os navegadores */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif; /* Fonte moderna e limpa */
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* --- TELA DE LOGIN --- */
+#tela-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  /* Cria aquele efeito de luz suave no fundo */
+  background: radial-gradient(ellipse at 55% 40%, #1c0b0b 0%, var(--bg) 65%);
+}
+
+.login-box {
+  background: var(--surf);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 42px 38px;
+  width: 100%;
+  max-width: 390px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.55); /* Sombra pesada para dar profundidade */
+}
+
+/* --- ESTRUTURA DO APP (Sidebar + Conteúdo) --- */
+#app { display: none; min-height: 100vh; }
+
+/* Controla a troca de telas através de uma classe no <body> */
+body.logado #tela-login { display: none; }
+body.logado #app         { display: flex; }
+
+#sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background: var(--surf);
+  border-right: 1px solid var(--border);
+  position: fixed; /* Fixa o menu na lateral esquerda */
+  top: 0; left: 0; bottom: 0;
+  z-index: 50;
+}
+
+.nav-btn {
+  /* Estilo dos botões de navegação lateral */
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all .15s;
+  background: none;
+  border: none;
+  width: 100%;
+}
+
+.nav-btn.ativo { 
+  background: rgba(232,55,42,.11); /* Fundo avermelhado suave para o botão ativo */
+  color: var(--red); 
+}
+
+/* --- COMPONENTES DE INTERFACE (Cards, Stats, Badges) --- */
+
+/* Grid de estatísticas (os quadradinhos coloridos no topo) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.stat {
+  background: var(--surf);
+  border: 1px solid var(--border);
+  padding: 15px;
+  position: relative; /* Necessário para a barrinha colorida no topo */
+}
+
+/* Barrinha colorida indicativa no topo de cada estatística */
+.stat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.stat.cr::before { background: var(--red); }
+.stat.cg::before { background: var(--green); }
+
+/* Etiquetas de Status (coloridas dinamicamente pelo JS) */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.69rem;
+  font-weight: 600;
+}
+
+/* --- FORMULÁRIOS E INPUTS --- */
+input, select, textarea {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--surf2);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+}
+
+input:focus {
+  border-color: var(--red); /* Brilha em vermelho ao clicar no campo */
+}
+
+/* --- MODAIS E POPUPS --- */
+.modal-bg {
+  /* Fundo escuro atrás das janelas pop-up */
+  background: rgba(0,0,0,.78);
+  backdrop-filter: blur(4px); /* Desfoca o fundo para focar na janela */
+}
+
+.modal {
+  background: var(--surf);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+/* --- MAPA DE MESAS (Layout de Cartões) --- */
+.mesa-card {
+  background: var(--surf);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  /* Organiza os itens da mesa em lista */
+}
+
+.mesa-num {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--red);
+}
+
+/* --- RESPONSIVIDADE (Celular/Tablet) --- */
+@media (max-width: 860px) {
+  /* Se a tela for pequena, a sidebar encolhe e mostra apenas os ícones */
+  #sidebar { width: 52px; }
+  #sidebar .sb-logo h1, 
+  #sidebar .sb-user, 
+  #sidebar .nav-btn span:not(.ic) { display: none; }
+  #conteudo { margin-left: 52px; }
+}
